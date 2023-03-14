@@ -1,0 +1,19 @@
+% Load y values from CSV file y_values = csvread('y_values.csv');
+
+% Define equation to solve for X, Z, and W f = @(x) [x(1)^2 + x(1) + log(x(2)) + exp(x(3)) + 5 - y_values; ... x(1)^2 + x(1) + log(x(2)) - exp(x(3)) + 5 - y_values];
+
+% Define range limits for X, Z, and W
+
+lb = [-50, -30, -60];
+
+ub = [50, 20, 45];
+
+% Solve for X, Z, and W x0 = [0, 1, 0]; % initial guess for X, Z, and W options = optimset('Display', 'off'); [x_values, fval, exitflag] = fsolve(f, x0, options);
+
+% Check if solution is within range limits if all(x_values >= lb) && all(x_values <= ub) && exitflag > 0 % Save x, z, and w values to CSV file
+
+results = table(x_values', 'VariableNames', {'Xmax', 'Zmax', 'Wmax'});
+
+writetable(results, 'results.csv'); else
+
+error('No solution found within range limits.') end
